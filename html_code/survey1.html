@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de ansiedad</title>
+    <link rel="stylesheet" href="./css_code/survey1.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const tableBody = document.querySelector(".table-container tbody");
+            const form = document.getElementById("form-ansiedad");
+            const submitButton = document.querySelector(".form2-button");
+
+            let preguntas = [];
+
+            // Add loading state
+            submitButton.textContent = "Cargando preguntas...";
+            submitButton.disabled = true;
+
+            try {
+                const response = await fetch("http://localhost:4000/encuesta/ansiedad");
+                preguntas = await response.json();
+
+                preguntas.forEach((pregunta, index) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                      <td class="pregunta">${pregunta.texto}</td>
+                      <td>
+                        <ul class="opciones">
+                          <li><input type="radio" name="pregunta${index + 1}" value="0" required> Nunca</li>
+                          <li><input type="radio" name="pregunta${index + 1}" value="1"> Varios días</li>
+                          <li><input type="radio" name="pregunta${index + 1}" value="2"> La mitad de los días</li>
+                          <li><input type="radio" name="pregunta${index + 1}" value="3"> Casi cada día</li>
+                        </ul>
+                      </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                // Enable submit button
+                submitButton.textContent = "Enviar respuestas";
+                submitButton.disabled = false;
+
+            } catch (error) {
+                console.error("Error al obtener las preguntas:", error);
+                tableBody.innerHTML = `<tr><td colspan="2" class="error-message">Error al cargar las preguntas. Por favor, recarga la página.</td></tr>`;
+                submitButton.textContent = "Error - Recargar página";
+                submitButton.disabled = true;
+            }
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                // Disable button during submission
+                submitButton.textContent = "Enviando...";
+                submitButton.disabled = true;
+
+                const respuestas = [];
+                const rows = document.querySelectorAll(".table-container tbody tr");
+
+                rows.forEach((row, index) => {
+                    const selected = row.querySelector(`input[name="pregunta${index + 1}"]:checked`);
+                    if (selected) {
+                        respuestas.push({
+                            id_pregunta: 15 + index, // IDs de ansiedad comienzan en 15
+                            valor: parseInt(selected.value)
+                        });
+                    }
+                });
+
+                if (respuestas.length !== preguntas.length) {
+                    submitButton.textContent = "Enviar respuestas";
+                    submitButton.disabled = false;
+                    return alert("Por favor responde todas las preguntas.");
+                }
+
+                try {
+                    const token = localStorage.getItem("token");
+
+                    const res = await fetch("http://localhost:4000/resultados", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ respuestas, tipoEncuesta: "ansiedad"})
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        alert("Encuesta enviada correctamente");
+                        window.location.href = "perfil.html";
+                    } else {
+                        alert(data.error || "Error al enviar respuestas");
+                        submitButton.textContent = "Enviar respuestas";
+                        submitButton.disabled = false;
+                    }
+                } catch (error) {
+                    console.error("Error al enviar respuestas:", error);
+                    alert("Error de red al enviar las respuestas.");
+                    submitButton.textContent = "Enviar respuestas";
+                    submitButton.disabled = false;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header class="survey-header">
+        <a href="javascript:history.back()" class="back-button">
+            Volver
+        </a>
+        <div class="title-container">
+            <h2 class="titulo-principal">Encuesta de ansiedad</h2>
+        </div>
+    </header>
+    <main>
+        <section>
+            <form id="form-ansiedad">
+                <table class="table-container">
+                  <thead>
+                    <tr>
+                      <th>Pregunta</th>
+                      <th>Opciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Preguntas se cargarán aquí dinámicamente -->
+                  </tbody>
+                </table>
+                <br>
+                <button class="form2-button" type="submit">Enviar respuestas</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

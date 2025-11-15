@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Encuestas</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css_code/menu.css">
+</head>
+<body>
+    <header class="menu">
+        <div class="perfil">
+            <img src="https://static.vecteezy.com/system/resources/previews/002/387/693/original/user-profile-icon-free-vector.jpg" alt="Icono de perfil">
+            <span>Usuario: User</span>
+            <ul class="submenu">
+                <li><a class="submenu-option" href="./perfil.html"><i class="fas fa-user"></i>Ver perfil</a></li>
+                <li><a class="submenu-option" id="logout-button"><i class="fas fa-sign-out-alt"></i>Cerrar sesión</a></li>
+            </ul>
+        </div>
+        <nav>
+            <ul>
+                <li><a class="menu-option1" href="./ayuda.html"><i class="fas fa-heartbeat"></i> Zona de calma</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="survey-container">
+            <h2 class="titulo">Encuestas Disponibles</h2>
+            <div>
+                <div class="survey-group1">
+                    <a href="./survey_introduction2.html">
+                        <h3 class="titulo-encuestas">Estrés</h3>
+                        <img src="https://cdn-icons-png.flaticon.com/512/3782/3782069.png" alt="Encuesta de Estrés">
+                    </a>
+                </div>
+                <div class="survey-group2">
+                    <a href="./survey_introduction1.html">
+                        <h3 class="titulo-encuestas">Ansiedad</h3>
+                        <img src="https://cdn-icons-png.flaticon.com/512/6723/6723405.png" alt="Encuesta de Ansiedad">
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="./javascripts/home.js"></script>
+</body>
+</html>

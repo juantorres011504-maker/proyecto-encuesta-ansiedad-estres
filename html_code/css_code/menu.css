@@ -1,0 +1,336 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header moderno */
+        .menu {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .perfil {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .perfil:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .perfil img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 12px;
+            border: 3px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .perfil:hover img {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .perfil span {
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .submenu {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            background: white;
+            border-radius: 15px;
+            padding: 0.5rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            list-style: none;
+            min-width: 180px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .perfil:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .submenu li {
+            padding: 0;
+        }
+
+        .submenu-option {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0 0.5rem;
+        }
+
+        .submenu-option:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .submenu-option i {
+            margin-right: 8px;
+            width: 16px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .menu-option1 {
+            color: #333;
+            background: rgba(102, 126, 234, 0.1);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-option1:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        /* Main content */
+        main {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .survey-container {
+            text-align: center;
+        }
+
+        .titulo {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .survey-container > div {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .survey-group1,
+        .survey-group2 {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .survey-group1::before,
+        .survey-group2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .survey-group1::before {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+        }
+
+        .survey-group2::before {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .survey-group1:hover,
+        .survey-group2:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .survey-group1:hover::before {
+            height: 8px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .survey-group2:hover::before {
+            height: 8px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .survey-group1 a,
+        .survey-group2 a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .titulo-encuestas {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .survey-group1:hover .titulo-encuestas {
+            color: #ee5a24;
+            transform: translateY(-5px);
+        }
+
+        .survey-group2:hover .titulo-encuestas {
+            color: #667eea;
+            transform: translateY(-5px);
+        }
+
+        .survey-group1 img,
+        .survey-group2 img {
+            width: 120px;
+            height: 120px;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+        }
+
+        .survey-group1:hover img,
+        .survey-group2:hover img {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Efectos adicionales */
+        .survey-group1::after,
+        .survey-group2::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            z-index: 0;
+        }
+
+        .survey-group1:hover::after,
+        .survey-group2:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .survey-group1 > *,
+        .survey-group2 > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .survey-container > div {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .titulo {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            main {
+                padding: 2rem 1rem;
+            }
+
+            .survey-group1,
+            .survey-group2 {
+                padding: 2rem 1.5rem;
+            }
+
+            .submenu {
+                position: fixed;
+                top: 80px;
+                left: 1rem;
+                right: 1rem;
+                width: auto;
+            }
+        }
+
+        /* Animación de entrada */
+        .survey-group1,
+        .survey-group2 {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .survey-group2 {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }

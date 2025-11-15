@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Encuesta</title>
+    <link rel="stylesheet" href="./css_code/perfil.css">
+</head>
+<body>
+    <header class="menu">
+        <section class="submenu">
+            <div>
+                <a href="./menu.html">Regresar</a>
+            </div>
+        </section>
+    </header>
+    <main class="user-container">
+        <section class="user-data">
+            <div class="user-header">
+                <img src="https://static.vecteezy.com/system/resources/previews/002/387/693/original/user-profile-icon-free-vector.jpg" height="230" width="230">
+                <h2 id="username">Nombre de Usuario</h2>
+            </div>
+            <div class="activity">
+                <fieldset class="user-group">
+                    <legend>Registro de actividad</legend>
+                    <div class="group1">
+                        <label>Encuestas realizadas en total:</label>
+                        <span id="total-encuestas">No disponible</span>
+                    </div>
+                    <div class="group2">
+                        <div class="sub-activity">
+                            <label>Encuestas completadas:</label>
+                            <span id="tipo-encuestas">No disponible</span>
+                        </div>
+                        <div class="sub-activity">
+                            <label><span class="status-indicator status-pending"></span>Resultado de Estrés:</label>
+                            <span id="resultado-estres">No disponible</span>
+                        </div>
+                        <div class="sub-activity">
+                            <label><span class="status-indicator status-completed"></span>Resultado de Ansiedad:</label>
+                            <span id="resultado-ansiedad">No disponible</span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </section>
+        <section class="user-data">
+            <div class="data">
+                <fieldset class="user-group">
+                    <legend>Datos personales</legend>
+                    <div class="personal-row">
+                        <label for="nombre">Nombre:</label>
+                        <span id="nombre">No disponible</span>
+                    </div>
+                    <div class="personal-row">
+                        <label for="correo">Correo:</label>
+                        <span id="correo">No disponible</span>
+                    </div>
+                    <div class="personal-row">
+                        <label for="numero_control">No. Control:</label>
+                        <span id="numero_control">No disponible</span>
+                    </div>
+                </fieldset>
+            </div>
+        </section>
+    </main>
+    <script src="./javascripts/perfil.js"></script>
+</body>
+</html>

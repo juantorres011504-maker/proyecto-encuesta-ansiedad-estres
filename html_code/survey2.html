@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Encuesta de estrés</title>
+  <link rel="stylesheet" href="./css_code/survey2.css">
+</head>
+<body>
+  <header class="survey-header">
+    <a href="javascript:history.back()" class="back-button">Volver</a>
+    <div class="title-container">
+      <h2 class="titulo-principal">Encuesta de estrés</h2>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <form id="form-estres">
+        <table class="table-container">
+          <thead>
+            <tr>
+              <th>Pregunta</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Las preguntas se insertarán aquí dinámicamente -->
+          </tbody>
+        </table>
+        <br />
+        <button class="form2-button" type="submit">Enviar respuestas</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("form-estres");
+    const tableBody = document.querySelector(".table-container tbody");
+    let preguntas = [];
+
+    // Mostrar estado de carga mientras se cargan las preguntas
+    function showLoadingState() {
+      tableBody.innerHTML = `
+        <tr class="loading-row">
+          <td colspan="2" style="text-align: center; padding: 2rem;">
+            Cargando preguntas...
+          </td>
+        </tr>
+      `;
+    }
+
+    // Mostrar mensaje de error
+    function showErrorState(message) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="2" class="error-message">
+            ${message}
+          </td>
+        </tr>
+      `;
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      showLoadingState();
+      
+      try {
+        const response = await fetch("http://localhost:4000/encuesta/estres");
+        preguntas = await response.json();
+
+        // Limpiar tabla antes de agregar preguntas
+        tableBody.innerHTML = '';
+
+        preguntas.forEach((pregunta, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td class="pregunta">${pregunta.texto}</td>
+            <td>
+              <ul class="opciones">
+                <li><input type="radio" name="pregunta${index + 1}" value="0"> Nunca</li>
+                <li><input type="radio" name="pregunta${index + 1}" value="1"> Casi nunca</li>
+                <li><input type="radio" name="pregunta${index + 1}" value="2"> De vez en cuando</li>
+                <li><input type="radio" name="pregunta${index + 1}" value="3"> A menudo</li>
+                <li><input type="radio" name="pregunta${index + 1}" value="4"> Muy a menudo</li>
+              </ul>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error al obtener las preguntas:", error);
+        showErrorState("Error al cargar las preguntas. Por favor, intenta nuevamente.");
+      }
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const submitButton = form.querySelector('.form2-button');
+      const originalText = submitButton.textContent;
+      
+      // Deshabilitar botón y mostrar estado de carga
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+
+      const respuestas = [];
+      const rows = document.querySelectorAll(".table-container tbody tr");
+
+      rows.forEach((row, index) => {
+        const selected = row.querySelector(`input[name="pregunta${index + 1}"]:checked`);
+        if (selected) {
+          respuestas.push({
+            id_pregunta: 1 + index, // Preguntas de estrés van de 1 a 14
+            valor: parseInt(selected.value)
+          });
+        }
+      });
+
+      if (respuestas.length !== preguntas.length) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+        return alert("Por favor responde todas las preguntas.");
+      }
+
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("http://localhost:4000/resultados", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ respuestas, tipoEncuesta: "estres" })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("Encuesta enviada correctamente");
+          window.location.href = "perfil.html";
+        } else {
+          alert(data.error || "Error al enviar respuestas");
+        }
+      } catch (error) {
+        console.error("Error al enviar respuestas:", error);
+        alert("Error de red al enviar las respuestas.");
+      } finally {
+        // Restaurar botón
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    });
+  </script>
+</body>
+</html>
