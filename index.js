@@ -8,7 +8,7 @@ const db = require('./config/db');
 const verifyToken = require('./middleware/auth');
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const path = require('path');
@@ -48,8 +48,7 @@ app.post('/login', async (req, res) => {
 
   try {
     const [rows] = await db.query('CALL sp_iniciar_sesion(?)', [correo]);
-
-    console.log('Resultado de login:', rows);
+    console.log('Resultado de sp_iniciar_sesion:', rows);
 
     if (rows.length === 0 || rows[0].length === 0) {
       return res.status(400).json({ message: 'Correo o contraseña incorrectos' });
@@ -57,21 +56,20 @@ app.post('/login', async (req, res) => {
 
     const user = rows[0][0];
     
-    // Verificar contraseña con bcrypt
     const isPasswordValid = await bcrypt.compare(contrasena, user.contrasena);
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Correo o contraseña incorrectos' });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.json({ token, user: { id: user.id, nombre: user.nombre } });
   } catch (error) {
+    console.error('Error en /login:', error); // 👈 log completo del error
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // Obtener encuesta de estrés
 app.get('/encuesta/estres', async (req, res) => {
