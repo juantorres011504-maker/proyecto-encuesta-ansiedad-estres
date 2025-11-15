@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const contrasena = document.getElementById('password').value;
 
         try {
-            const response = await fetch(`${'hhttps://proyecto-encuesta-ansiedad-estres.onrender.com/register', {
+            const response = await fetch(`${'https://proyecto-encuesta-ansiedad-estres.onrender.com/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
