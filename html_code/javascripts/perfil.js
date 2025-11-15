@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        const response = await fetch(`${window.API_URL}/perfil`, {
+        const response = await fetch('hhttps://proyecto-encuesta-ansiedad-estres.onrender.com/perfil', {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
