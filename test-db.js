@@ -1,20 +1,12 @@
-const mysql = require('mysql2/promise');
+const db = require('./db'); // o './config/db' según tu ruta
 
-async function testDB() {
+async function test() {
   try {
-    const connection = await mysql.createConnection({
-      host: 'nozomi.proxy.rlwy.net',
-      user: 'root',
-      password: 'BoXwemSdwiItTeObyGZMYjOsuJzKPgil',
-      database: 'railway',
-      port: 16412,
-      ssl: { rejectUnauthorized: false }
-    });
-    console.log('Conexión exitosa!');
-    await connection.end();
-  } catch (err) {
-    console.error('Error al conectar:', err);
+    const [rows] = await db.query('SELECT 1 + 1 AS resultado');
+    console.log('Conexión exitosa, prueba:', rows);
+  } catch (error) {
+    console.error('Error conectando a la DB:', error);
   }
 }
 
-testDB();
+test();
