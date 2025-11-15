@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const contrasena = document.getElementById('password').value;
 
         try {
-            const response = await fetch('https://proyecto-encuesta-ansiedad-estres.onrender.com/login', {
+            const response = await fetch('hhttps://proyecto-encuesta-ansiedad-estres.onrender.com/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
